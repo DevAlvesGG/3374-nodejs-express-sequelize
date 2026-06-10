@@ -5,9 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Matricula extends Model {
     static associate(models) {
-      Matricula.belongsToMany(models.Pessoa, { foreignKey: 'estudante_id' },
+      Matricula.belongsTo(models.Pessoa, { foreignKey: 'estudante_id' },
        );
-      Matricula.belongsToMany(models.Curso, { foreignKey: 'curso_id' },
+      Matricula.belongsTo(models.Curso, { foreignKey: 'curso_id' },
        );
     }
   }

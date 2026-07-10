@@ -25,6 +25,15 @@ class PessoaController extends Controller {
             return res.status(500).json({ message: `Ocorreu um erro ao buscar as matrículas, ${error.message}` });
         }
     }
+
+    async pegaTodasAsPessoas(req, res) {
+        try {
+            const listaPessoas = await pessoaServices.pegaPessoasEscopoTodos();
+            return res.status(200).json(listaPessoas);
+        }catch (error) {
+            return res.status(500).json({ message: `Ocorreu um erro ao buscar as pessoas, ${error.message}` });
+        }
+    }
 }
 
 module.exports = PessoaController;

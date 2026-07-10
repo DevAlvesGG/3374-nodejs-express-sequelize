@@ -8,7 +8,7 @@ class Controller {
             const listaDeRegistro = await this.entidadeService.pegaTodosOsRegistros();
             return res.status(200).json(listaDeRegistro)
         } catch (error) {
-            return res.status(500).json({ message: 'Ocorreu um erro ao buscar os registros' });
+            return res.status(500).json({ message: `Ocorreu um erro ao buscar os registros, ${error.message}` });
         }
     }
 

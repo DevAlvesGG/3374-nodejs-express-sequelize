@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Pessoa.hasMany(models.Matricula, { 
         foreignKey: 'estudante_id',
-        scopes: { status: 'matriculado' },
+        //scopes: { status: 'matriculado' },
         as: 'aulasMatriculadas'
       });
     }
@@ -23,7 +23,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Pessoa',
-    tableName: 'pessoas'// Define o nome da tabela como 'pessoas'
+    tableName: 'pessoas',// Define o nome da tabela como 'pessoas'
+    paranoid: true,
+    defaultScope: {
+      where: {
+        ativo: true
+      }
+    }
   });
   return Pessoa;
 };

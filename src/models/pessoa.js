@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       );
       Pessoa.hasMany(models.Matricula, { 
         foreignKey: 'estudante_id',
-        //scopes: { status: 'matriculado' },
+        scopes: { status: 'matriculado' },
         as: 'aulasMatriculadas'
+      });
+      Pessoa.hasMany(models.Matricula, { 
+        foreignKey: 'estudante_id',
+        as: 'todasAsMatriculas'
       });
     }
   }

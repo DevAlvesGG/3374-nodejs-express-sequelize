@@ -8,11 +8,11 @@ class PessoaController extends Controller {
         super(pessoaServices);
     }
 
-    async pegaMatriculas(req, res) {
+    async pegaMatriculasAtivas(req, res) {
         const { estudanteId } = req.params;
 
         try {
-            const listaMatriculas = await pessoaServices.pegaMatriculasPorEstudante(Number(estudanteId));
+            const listaMatriculas = await pessoaServices.pegaMatriculasAtivasPorEstudante(Number(estudanteId));
             console.log(listaMatriculas);
 
             if(!listaMatriculas) {
@@ -32,6 +32,16 @@ class PessoaController extends Controller {
             return res.status(200).json(listaPessoas);
         }catch (error) {
             return res.status(500).json({ message: `Ocorreu um erro ao buscar as pessoas, ${error.message}` });
+        }
+    }
+
+    async pegaTodasAsMatriculas(req, res) {
+        const { estudanteId } = req.params;
+        try {
+            const listaMatriculas = await pessoaServices.pegaTodasAsMatriculasPorEstudante(Number(estudanteId));
+            return res.status(200).json(listaMatriculas);
+        } catch (error) {
+            return res.status(500).json({ message: `Ocorreu um erro ao buscar as matrículas, ${error.message}` });
         }
     }
 }

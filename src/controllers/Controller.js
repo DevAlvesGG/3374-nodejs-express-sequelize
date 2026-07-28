@@ -1,3 +1,5 @@
+const converteIds = require('../utils/conversorDeStringHelper');
+
 class Controller {
     constructor(entidadeService) {
         this.entidadeService = entidadeService;
@@ -28,6 +30,20 @@ class Controller {
         }
     }
 
+    async pegaUm(req, res) {
+        const { ...params } = req.params;
+        const where = converteIds(params);
+        try {
+            const umRegistro = await this.entidadeService.pegaUmRegistro(where);
+            if(!umRegistro) {
+                return res.status(404).json({message: 'Registro não encontrado'});
+            }
+            return res.status(200).json(umRegistro);
+        }catch (error) {
+            return res.status(500).json({ message: `Ocorreu um erro ao buscar o registro, ${error.message}` });
+        }
+    }
+
     async criaNovo(req, res) {
         const dadosParaCriacao = req.body;
 
@@ -46,12 +62,13 @@ class Controller {
     }
 
     async atualiza(req, res) {
-        const { id } = req.params;
+        const { ...params } = req.params;
         const dadosAtualizados = req.body;
+        const where = converteIds(params)
 
         try {
             // foiAtualizado esta retornando como undefined
-            const foiAtualizado = await this.entidadeService.atualizaRegistro(dadosAtualizados, Number(id));
+            const foiAtualizado = await this.entidadeService.atualizaRegistro(dadosAtualizados, where);
             
             if(!foiAtualizado) {
                 return res.status(400).json({ message: 'Não foi possível atualizar o registro' })

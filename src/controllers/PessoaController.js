@@ -9,10 +9,10 @@ class PessoaController extends Controller {
     }
 
     async pegaMatriculasAtivas(req, res) {
-        const { estudanteId } = req.params;
+        const { estudante_id } = req.params;
 
         try {
-            const listaMatriculas = await pessoaServices.pegaMatriculasAtivasPorEstudante(Number(estudanteId));
+            const listaMatriculas = await pessoaServices.pegaMatriculasAtivasPorEstudante(Number(estudante_id));
             console.log(listaMatriculas);
 
             if(!listaMatriculas) {
@@ -36,12 +36,22 @@ class PessoaController extends Controller {
     }
 
     async pegaTodasAsMatriculas(req, res) {
-        const { estudanteId } = req.params;
+        const { estudante_id } = req.params;
         try {
-            const listaMatriculas = await pessoaServices.pegaTodasAsMatriculasPorEstudante(Number(estudanteId));
+            const listaMatriculas = await pessoaServices.pegaTodasAsMatriculasPorEstudante(Number(estudante_id));
             return res.status(200).json(listaMatriculas);
         } catch (error) {
             return res.status(500).json({ message: `Ocorreu um erro ao buscar as matrículas, ${error.message}` });
+        }
+    }
+
+    async cancelaRegistroEstudante(req, res) {
+        const { estudante_id } = req.params;
+        try {
+           await pessoaServices.cancelaPessoaEMatricula(Number(estudante_id)) 
+           return res.status(200).json({ message: `Matrículas ref. estudante ${estudante_id} canceladas.`})
+        } catch (error) {
+            return res.status(500).json({ erro: erro.message})
         }
     }
 }

@@ -16,7 +16,16 @@ module.exports = (sequelize, DataTypes) => {
   Curso.init({
     titulo: DataTypes.STRING,
     descricao: DataTypes.STRING,
-    data_inicio: DataTypes.DATEONLY
+    data_inicio: DataTypes.DATEONLY,
+    data_final: {
+      type: DataTypes.DATEONLY,
+      allowNull: false, // O Sequelize vai impedir cadastros sem data_final a nível de código
+      validate: {
+        notNull: { msg: "A data final é obrigatória." },
+        notEmpty: { msg: "A data final não pode ser vazia." }
+      }
+    }
+
   }, {
     sequelize,
     modelName: 'Curso',
